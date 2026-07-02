@@ -1,0 +1,59 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <Nullable>disable</Nullable>
+    <AssemblyName>GrantAllTraitsMod</AssemblyName>
+    <RootNamespace>GrantAllTraitsMod</RootNamespace>
+    <LangVersion>7.3</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>..\..\The Scroll Of Taiwu_Data\Managed\0Harmony.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="TaiwuModdingLib">
+      <HintPath>..\..\The Scroll Of Taiwu_Data\Managed\TaiwuModdingLib.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\..\The Scroll Of Taiwu_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="GameData.Shared">
+      <HintPath>..\..\The Scroll Of Taiwu_Data\Managed\GameData.Shared.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="GameData.Common">
+      <HintPath>..\..\The Scroll Of Taiwu_Data\Managed\GameData.Common.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="GameData.Serializer">
+      <HintPath>..\..\The Scroll Of Taiwu_Data\Managed\GameData.Serializer.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="GameData.Utilities">
+      <HintPath>..\..\The Scroll Of Taiwu_Data\Managed\GameData.Utilities.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="GameData.Utilities.Reflection">
+      <HintPath>..\..\The Scroll Of Taiwu_Data\Managed\GameData.Utilities.Reflection.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\The Scroll Of Taiwu_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\The Scroll Of Taiwu_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\..\The Scroll Of Taiwu_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+
+</Project>

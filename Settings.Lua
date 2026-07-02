@@ -1,0 +1,17 @@
+return {
+	Enabled = true,
+	BookWeightEnabled = true,
+	FoodWeightEnabled = true,
+	MedicineWeightEnabled = true,
+	EquipmentWeightEnabled = true,
+	ToolWeightEnabled = true,
+	MaterialWeightEnabled = true,
+	MiscWeightEnabled = true,
+	CricketWeightEnabled = true,
+	LockFiveElementsToMix = true,
+	BreakthroughAlwaysSuccess = true,
+	CustomPointMainAttribute = 300,
+	CustomPointLifeSkill = 800,
+	CustomPointCombatSkill = 700,
+	CustomPointFeature = 7,
+}
