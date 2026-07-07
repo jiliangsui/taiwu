@@ -19,3 +19,4 @@ D:\SteamLibrary\steamapps\common\The Scroll Of Taiwu\mod\我全都要\obj\Releas
 D:\SteamLibrary\steamapps\common\The Scroll Of Taiwu\mod\我全都要\obj\Release\netstandard2.1\GrantAllTraitsMod.csproj.CoreCompileInputs.cache
 D:\SteamLibrary\steamapps\common\The Scroll Of Taiwu\mod\我全都要\obj\Release\netstandard2.1\GrantAllTraitsMod.dll
 D:\SteamLibrary\steamapps\common\The Scroll Of Taiwu\mod\我全都要\obj\Release\netstandard2.1\GrantAllTraitsMod.pdb
+D:\SteamLibrary\steamapps\common\The Scroll Of Taiwu\mod\我全都要\obj\Release\netstandard2.1\GrantAllTraitsMod.sourcelink.json

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GrantAllTraitsMod")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8b4f678467d55ac3c21e562b7e1d853d24f29954")]
 [assembly: System.Reflection.AssemblyProductAttribute("GrantAllTraitsMod")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GrantAllTraitsMod")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -18,8 +18,7 @@ namespace GrantAllTraitsMod
         private static bool _equipmentWeightEnabled = true;
         private static bool _toolWeightEnabled = true;
         private static bool _materialWeightEnabled = true;
-        private static bool _miscWeightEnabled = true;
-        private static bool _cricketWeightEnabled = true;
+        private static bool _otherWeightEnabled = true;
         private static bool _lockFiveElementsToMix = true;
         private static bool _breakthroughAlwaysSuccess = true;
         private static int _customPointMainAttribute = 300;
@@ -127,14 +126,10 @@ namespace GrantAllTraitsMod
                         else if (trimmed == "ToolWeightEnabled = true") _toolWeightEnabled = true;
                         else if (trimmed == "MaterialWeightEnabled = false") _materialWeightEnabled = false;
                         else if (trimmed == "MaterialWeightEnabled = true") _materialWeightEnabled = true;
-                        else if (trimmed == "MiscWeightEnabled = false") _miscWeightEnabled = false;
-                        else if (trimmed == "MiscWeightEnabled = true") _miscWeightEnabled = true;
-                        else if (trimmed == "CricketWeightEnabled = false") _cricketWeightEnabled = false;
-                        else if (trimmed == "CricketWeightEnabled = true") _cricketWeightEnabled = true;
-                        else if (trimmed == "LockFiveElementsToMix = false") _lockFiveElementsToMix = false;
-                        else if (trimmed == "LockFiveElementsToMix = true") _lockFiveElementsToMix = true;
                         else if (trimmed == "BreakthroughAlwaysSuccess = false") _breakthroughAlwaysSuccess = false;
                         else if (trimmed == "BreakthroughAlwaysSuccess = true") _breakthroughAlwaysSuccess = true;
+                        else if (trimmed == "OtherWeightEnabled = false") _otherWeightEnabled = false;
+                        else if (trimmed == "OtherWeightEnabled = true") _otherWeightEnabled = true;
                         else if (trimmed.StartsWith("CustomPointMainAttribute = "))
                         {
                             var raw = trimmed.Substring("CustomPointMainAttribute = ".Length).Trim().Trim('"');
@@ -176,8 +171,7 @@ namespace GrantAllTraitsMod
                     _equipmentWeightEnabled = true;
                     _toolWeightEnabled = true;
                     _materialWeightEnabled = true;
-                    _miscWeightEnabled = true;
-                    _cricketWeightEnabled = true;
+                    _otherWeightEnabled = true;
                     _lockFiveElementsToMix = true;
                 }
             }
@@ -279,10 +273,8 @@ namespace GrantAllTraitsMod
                         else if (trimmed == "ToolWeightEnabled = true") _toolWeightEnabled = true;
                         else if (trimmed == "MaterialWeightEnabled = false") _materialWeightEnabled = false;
                         else if (trimmed == "MaterialWeightEnabled = true") _materialWeightEnabled = true;
-                        else if (trimmed == "MiscWeightEnabled = false") _miscWeightEnabled = false;
-                        else if (trimmed == "MiscWeightEnabled = true") _miscWeightEnabled = true;
-                        else if (trimmed == "CricketWeightEnabled = false") _cricketWeightEnabled = false;
-                        else if (trimmed == "CricketWeightEnabled = true") _cricketWeightEnabled = true;
+                        else if (trimmed == "OtherWeightEnabled = false") _otherWeightEnabled = false;
+                        else if (trimmed == "OtherWeightEnabled = true") _otherWeightEnabled = true;
                         else if (trimmed == "LockFiveElementsToMix = false") _lockFiveElementsToMix = false;
                         else if (trimmed == "LockFiveElementsToMix = true") _lockFiveElementsToMix = true;
                         else if (trimmed == "BreakthroughAlwaysSuccess = false") _breakthroughAlwaysSuccess = false;
@@ -341,7 +333,7 @@ namespace GrantAllTraitsMod
                 Log($"ModRoot={_modRoot}, LogPath={LogPath}");
                 ReadSettings();
                 Log($"设置: trait={_enabled}");
-                Log($"重量: 书籍={_bookWeightEnabled} 食物={_foodWeightEnabled} 药物茶酒={_medicineWeightEnabled} 装备={_equipmentWeightEnabled} 工具={_toolWeightEnabled} 材料={_materialWeightEnabled} 杂项={_miscWeightEnabled} 促织={_cricketWeightEnabled}");
+                Log($"重量: 书籍={_bookWeightEnabled} 食物={_foodWeightEnabled} 药毒={_medicineWeightEnabled} 装备={_equipmentWeightEnabled} 工具={_toolWeightEnabled} 材料={_materialWeightEnabled} 其他={_otherWeightEnabled}");
                 Log($"五行锁定混元={_lockFiveElementsToMix} 突破百分百={_breakthroughAlwaysSuccess}");
                 Log($"自定义点数: 主属性={_customPointMainAttribute} 技艺={_customPointLifeSkill} 功法={_customPointCombatSkill} 特质={_customPointFeature}");
 
@@ -493,13 +485,12 @@ namespace GrantAllTraitsMod
                 // 分类定义：(类型名列表, 是否启用)
                 string[][] categoryTypes = new[] {
                     new[] { "SkillBook" },
-                    new[] { "Food" },
-                    new[] { "Medicine", "TeaWine" },
+                    new[] { "Food", "TeaWine" },
+                    new[] { "Medicine" },
                     new[] { "Weapon", "Armor", "Accessory", "Clothing", "Carrier" },
                     new[] { "CraftTool" },
                     new[] { "Material" },
-                    new[] { "Misc" },
-                    new[] { "Cricket" },
+                    new[] { "Misc", "Cricket" },
                 };
                 bool[] categoryEnabled = new[] {
                     _bookWeightEnabled,
@@ -508,11 +499,10 @@ namespace GrantAllTraitsMod
                     _equipmentWeightEnabled,
                     _toolWeightEnabled,
                     _materialWeightEnabled,
-                    _miscWeightEnabled,
-                    _cricketWeightEnabled,
+                    _otherWeightEnabled,
                 };
                 string[] categoryNames = new[] {
-                    "书籍", "食物", "药物茶酒", "装备", "工具", "材料", "杂项", "促织"
+                    "书籍", "食物", "药毒", "装备", "工具", "材料", "其他"
                 };
 
                 for (int i = 0; i < categoryTypes.Length; i++)
@@ -532,6 +522,21 @@ namespace GrantAllTraitsMod
                                 typeof(GrantAllTraitsPlugin).GetMethod("WeightPostfix",
                                     BindingFlags.Public | BindingFlags.Static)));
                             patchedCount++;
+                            
+                            // 装备类（Weapon/Armor/Accessory）还有独立的 GetWeight 缓存
+                            if (typeName == "Weapon" || typeName == "Armor" || typeName == "Accessory")
+                            {
+                                var getWeight = t.GetMethod("GetWeight",
+                                    BindingFlags.Public | BindingFlags.Instance | BindingFlags.DeclaredOnly);
+                                if (getWeight != null)
+                                {
+                                    var h2 = new Harmony("com.grantalltraits.gew." + typeName);
+                                    h2.Patch(getWeight, postfix: new HarmonyMethod(
+                                        typeof(GrantAllTraitsPlugin).GetMethod("WeightPostfix",
+                                            BindingFlags.Public | BindingFlags.Static)));
+                                    patchedCount++;
+                                }
+                            }
                         }
                         else
                         {
@@ -701,14 +706,14 @@ namespace GrantAllTraitsMod
             var typeName = __instance.GetType().Name;
             bool shouldZero;
             if (typeName == "SkillBook") shouldZero = _bookWeightEnabled;
-            else if (typeName == "Food") shouldZero = _foodWeightEnabled;
-            else if (typeName == "Medicine" || typeName == "TeaWine") shouldZero = _medicineWeightEnabled;
+            else if (typeName == "Food" || typeName == "TeaWine") shouldZero = _foodWeightEnabled;
+            else if (typeName == "Medicine") shouldZero = _medicineWeightEnabled;
             else if (typeName == "Weapon" || typeName == "Armor" || typeName == "Accessory"
                   || typeName == "Clothing" || typeName == "Carrier") shouldZero = _equipmentWeightEnabled;
             else if (typeName == "CraftTool") shouldZero = _toolWeightEnabled;
             else if (typeName == "Material") shouldZero = _materialWeightEnabled;
-            else if (typeName == "Misc") shouldZero = _miscWeightEnabled;
-            else if (typeName == "Cricket") shouldZero = _cricketWeightEnabled;
+            else if (typeName == "Misc") shouldZero = _otherWeightEnabled;
+            else if (typeName == "Cricket") shouldZero = _otherWeightEnabled;
             else shouldZero = false;
 
             if (shouldZero) __result = 0;

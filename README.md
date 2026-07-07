@@ -14,13 +14,12 @@
 | 分类 | 包含类型 |
 |------|---------|
 | 📚 书籍 | SkillBook |
-| 🍖 食物 | Food |
-| 💊 药物茶酒 | Medicine, TeaWine |
+| 🍖 食物 | Food, TeaWine |
+| 💊 药毒 | Medicine |
 | ⚔️ 装备 | Weapon, Armor, Accessory, Clothing, Carrier |
 | 🔧 工具 | CraftTool |
 | 🪨 材料 | Material |
-| 📦 杂项 | Misc |
-| 🦗 促织 | Cricket |
+| 📦 其他 | Misc, Cricket |
 
 ### 3. 五行锁定混元
 - 开启后台吾本人的五行类型强制为混元（均衡分配 20/20/20/20/20）

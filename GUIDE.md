@@ -417,6 +417,25 @@ D:\SteamLibrary\steamapps\workshop\content\838350\&lt;FileId&gt;\
 
 上传前请确保 `Config.lua` 中的 `Version` 已更新为最新版本号。
 
+### 2.16 常见 Bug 修复记录
+
+**1. 重量开关 `OtherWeightEnabled` 解析缺失**
+- 现象：关闭"其他"开关后，促织、杂项等物品重量仍为 0
+- 原因：用 `sed` 去重时误删了 `OtherWeightEnabled = false` 的解析行，`_otherWeightEnabled` 始终保持初始值 `true`
+- 修复：在 `ReadSettings()` 和 `ReadHotReloadSettings()` 中都补回该解析
+
+**2. 装备类物品 GetWeight 缓存问题**
+- 现象：Weapon、Armor 的 `GetWeight()` 方法有独立缓存，Mod 初始化时缓存已计算好，Patch `GetBaseWeight()` 不生效
+- 修复：在 PatchBackend 中对 Weapon、Armor、Accessory 额外 Patch 其 `GetWeight()` 方法
+
+**3. Config.lua 字段改名的 Sed 陷阱**
+- 现象：用 `sed -i` 批量替换字段名（如 `_miscWeightEnabled` → `_otherWeightEnabled`）时，会误伤同名子串
+- 教训：替换静态字段后必须检查是否产生重复行；删重复行时要确认是否把必要的 `= false` 行也删掉了
+
+**4. Carrier（载具）类物品默认重量为 0**
+- 确认：舟车（马车、牛车等）、家畜（瘦马、骏马等）、野兽等 Carrier 类型物品，游戏本身 Config 中的 `BaseWeight` 就为 0
+- 影响：即使不开"装备"重量开关，这些物品重量也是 0，属于游戏正常设定，非 Mod 问题
+
 ---
 
 ## 3. DLL 分析
