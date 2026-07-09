@@ -718,6 +718,30 @@ ExtraDomain
 └── _combatSkillBreakPlateLastForceBreakoutStepsCount (强制出关步数)
 ```
 
+#### 3.2.6 突破格子类型
+
+格子类型由 `Config.SkillBreakGridTypeItem` 定义：
+
+| ID | 名称 | 说明 |
+|----|------|------|
+| 0 | 起 | 起点格 |
+| 1 | 终 | 终点格 |
+| 2 | 总纲 | 总纲格 |
+| 3 | 如常 | 普通格 |
+| 4~13 | 相承/蕴海/寡聚/破立/不息/灵感/忘我/逆行/循序/苦功 | 特殊格（各有不同效果） |
+
+**可见性**：格子并非固定显示。`RandomGridData()` 根据概率决定每个格子是 `Showed`(可见) 还是 `Invisible`(隐藏)。走到隐藏格附近时自动显示。
+
+**特殊格权重**：`RandomSpecialGridType()` 使用 `_specialGridTypeGenerateWeights` 权重表随机选择。
+
+**可 Mod 的功能点**：
+| 功能 | 实现方式 |
+|------|---------|
+| 显示所有隐藏格子 | Postfix 修改 `UpdateCanSelectGrids`，将所有 `Invisible` 格子设为 `Showed` | ⚠️ 已移除，可能存在 Bug |
+| 必定出特殊格子 | Postfix 修改 `GenerateBreakGrids`，将普通格替换为随机特殊格 | ⚠️ 已移除，可能存在 Bug |
+| 无视格子限制 | Postfix 修改 `UpdateCanSelectGrids`，所有非选中/失败/隐藏格子设为 `CanSelect` | ⚠️ 已移除，可能存在 Bug |
+| 突破百分百成功 | Postfix 修改 `CalcSuccessRate`，结果强制设为 100 |
+
 ### 3.3 蛐蛐系统（抓蛐蛐 + 蛐蛐对战）
 
 > 蛐蛐是太吾绘卷的特色系统。以下内容通过 analyzer 反编译获得。

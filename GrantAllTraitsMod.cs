@@ -128,7 +128,6 @@ namespace GrantAllTraitsMod
                         else if (trimmed == "MaterialWeightEnabled = true") _materialWeightEnabled = true;
                         else if (trimmed == "BreakthroughAlwaysSuccess = false") _breakthroughAlwaysSuccess = false;
                         else if (trimmed == "BreakthroughAlwaysSuccess = true") _breakthroughAlwaysSuccess = true;
-                        else if (trimmed == "OtherWeightEnabled = false") _otherWeightEnabled = false;
                         else if (trimmed == "OtherWeightEnabled = true") _otherWeightEnabled = true;
                         else if (trimmed.StartsWith("CustomPointMainAttribute = "))
                         {
@@ -569,6 +568,10 @@ namespace GrantAllTraitsMod
                             typeof(GrantAllTraitsPlugin).GetMethod("CalcNeiliProportionPostfix",
                                 BindingFlags.Public | BindingFlags.Static)));
                         Log("五行锁定混元 Patch 成功");
+                    }
+                    break;
+                }
+            }
             // 突破百分百成功
             if (_breakthroughAlwaysSuccess)
             {
@@ -585,11 +588,17 @@ namespace GrantAllTraitsMod
                         h4.Patch(calcRate, postfix: new HarmonyMethod(
                             typeof(GrantAllTraitsPlugin).GetMethod("CalcSuccessRatePostfix",
                                 BindingFlags.Public | BindingFlags.Static)));
+                        // 前端显示也设100%
+                        var baseRateGetter = plateType.GetMethod("get_BaseSuccessRate",
+                            BindingFlags.Public | BindingFlags.Instance);
+                        if (baseRateGetter != null)
+                        {
+                            var h4b = new Harmony("com.grantalltraits.baserate");
+                            h4b.Patch(baseRateGetter, postfix: new HarmonyMethod(
+                                typeof(GrantAllTraitsPlugin).GetMethod("BaseSuccessRatePostfix",
+                                    BindingFlags.Public | BindingFlags.Static)));
+                        }
                         Log("突破百分百成功 Patch 成功");
-                    }
-                    break;
-                }
-            }
                     }
                     break;
                 }
@@ -804,6 +813,14 @@ namespace GrantAllTraitsMod
                 }
             }
             catch { }
+        }
+
+
+
+        public static void BaseSuccessRatePostfix(ref byte __result)
+        {
+            if (_breakthroughAlwaysSuccess)
+                __result = 100;
         }
 
         public static void Log(string msg)
